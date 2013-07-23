@@ -14,4 +14,13 @@ describe User do
 
   ## TODO updateの時に失敗するようなテストを書きたい
 
+  context 'roles is "admin"' do
+    subject { u = User.new; u.roles = ["admin"]; u.roles }
+    it { should eq ["admin"] }
+  end
+
+  context 'roles are "admin" and "viewer"' do
+    subject { u = User.new; u.roles = ["admin", "viewer"]; u.roles }
+    it { should eq ["admin", "viewer"] }
+  end
 end
