@@ -36,5 +36,33 @@ describe User do
     subject { u = User.new; u.roles = ["admin", "viewer"]; u.roles }
     it { should eq ["admin", "viewer"] }
   end
+
+  describe 'abilities' do
+
+    context 'user is nil' do
+      let(:user) { nil }
+      let(:ablity) { Ability.new(user) }
+
+      subject { ablity }
+      it { should_not be_able_to(:manage, Diary.new) }
+    end
+
+    context 'user.role has "admin"' do
+      let(:user) { u = User.new; u.roles = ["admin"]; u }
+      let(:ablity) { Ability.new(user) }
+
+      subject { ablity }
+      it { should be_able_to(:manage, Diary.new) }
+    end
+
+    context 'user.role has "viewer"' do
+      let(:user) { u = User.new; u.roles = ["viewer"]; u }
+      let(:ablity) { Ability.new(user) }
+
+      subject { ablity }
+      it { should be_able_to(:read, Diary.new) }
+      it { should_not be_able_to(:manage, Diary.new) }
+    end
+  end
 end
 
