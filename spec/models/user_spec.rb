@@ -48,13 +48,13 @@ describe User do
     end
 
     context 'user.role has "admin"' do
-      let(:user) { u = User.new; u.roles = ["admin"]; u }
+      let(:user) { double("User", roles: ["admin"]) }
 
       it { should be_able_to(:manage, Diary.new) }
     end
 
     context 'user.role has "viewer"' do
-      let(:user) { u = User.new; u.roles = ["viewer"]; u }
+      let(:user) { double("User", roles: ["viewer"]) }
 
       it { should be_able_to(:read, Diary.new) }
       it { should_not be_able_to(:manage, Diary.new) }
