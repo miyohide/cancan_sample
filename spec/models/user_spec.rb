@@ -53,6 +53,18 @@ describe User do
       it { should be_able_to(:manage, Diary.new) }
     end
 
+    context 'user.role has "author" and Diary-author is mine' do
+      let(:user) { double("User", roles: ["author"], id: 100) }
+
+      it { should be_able_to(:manage, Diary.new(user_id: user.id)) }
+    end
+
+    context "user.role has 'author' and Diary-author isn't mine" do
+      let(:user) { double("User", roles: ["author"], id: 100) }
+
+      it { should_not be_able_to(:manage, Diary.new(user_id: user.id + 1)) }
+    end
+
     context 'user.role has "viewer"' do
       let(:user) { double("User", roles: ["viewer"]) }
 

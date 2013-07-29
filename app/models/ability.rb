@@ -7,6 +7,8 @@ class Ability
 
     if user.roles.include?("admin")
       can :manage, Diary
+    elsif user.roles.include?("author")
+      can :manage, Diary, user_id: user.id
     else
       can :read, Diary
     end
