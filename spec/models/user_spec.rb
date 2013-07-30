@@ -48,7 +48,7 @@ describe User do
     end
 
     context 'user.role has "admin"' do
-      let(:user) { double("User", roles: ["admin"]) }
+      let(:user) { double("User", roles: ["admin"], id: 100) }
 
       it { should be_able_to(:manage, Diary.new) }
     end
@@ -66,10 +66,19 @@ describe User do
     end
 
     context 'user.role has "viewer"' do
-      let(:user) { double("User", roles: ["viewer"]) }
+      let(:user) { double("User", roles: ["viewer"], id: 100) }
 
       it { should be_able_to(:read, Diary.new) }
       it { should_not be_able_to(:manage, Diary.new) }
+    end
+
+    context 'User can manage myself' do
+      let(:user) { User.create(username: 'test1', password: 'pass001',
+                                                  password_confirmation: 'pass001')}
+      let(:user2) { double('User', roles: ['viewer'], id: 101) }
+
+      it { should be_able_to(:manage, user) }
+      it { should_not be_able_to(:manage, user2) }
     end
   end
 end

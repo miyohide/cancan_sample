@@ -6,12 +6,14 @@ class Ability
     user ||= User.new
 
     if user.roles.include?("admin")
-      can :manage, Diary
+      can :manage, [Diary, User]
     elsif user.roles.include?("author")
       can :manage, Diary, user_id: user.id
     else
       can :read, Diary
     end
+
+    can :manage, User, id: user.id unless user.id.nil?
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
